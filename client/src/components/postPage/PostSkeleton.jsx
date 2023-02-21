@@ -4,6 +4,7 @@ import { Box, Flex, Skeleton, SkeletonCircle, VStack } from "@chakra-ui/react";
 const PostSkeleton = () => {
   return (
     <VStack align="left" spacing={3}>
+      {/* START */}
       <Flex paddingY="5" gap={5} alignItems="center">
         <Skeleton height="48px" width="48px" rounded="full" />
         <Skeleton height="40px" width="200px" />

@@ -41,7 +41,7 @@ const PostCard = ({
       overflow="hidden"
       cursor="pointer"
     >
-      <Stack>
+      <Stack w="100%">
         <CardHeader paddingBottom="0">
           <Flex spacing="4">
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
