@@ -19,7 +19,7 @@ import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { BsBookmarkPlus, BsDot, BsFillBookmarkPlusFill } from "react-icons/bs";
 import { SlOptions } from "react-icons/sl";
-import { readingTime } from "../../constant/readingTime";
+import { readingTime } from "../../utils/readingTime";
 
 const PostCard = ({
   _id,
@@ -97,11 +97,11 @@ const PostCard = ({
             <HStack spacing={5} color={lightColor} fontSize="lg">
               <Tooltip hasArrow label="Save" placement="top">
                 <Box cursor="pointer" onClick={() => setSave(!save)}>
-                  {save ?
+                  {save ? (
                     <BsFillBookmarkPlusFill size={20} color={lightColor} />
-                  :
+                  ) : (
                     <BsBookmarkPlus size={20} color={lightColor} />
-                  }
+                  )}
                 </Box>
               </Tooltip>
 

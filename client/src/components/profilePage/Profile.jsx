@@ -1,5 +1,13 @@
 import React from "react";
-import { Text, VStack, Avatar, Grid, GridItem } from "@chakra-ui/react";
+import {
+  Text,
+  VStack,
+  Avatar,
+  Grid,
+  GridItem,
+  Card,
+  CardBody,
+} from "@chakra-ui/react";
 import PostCard from "../homePage/PostCard";
 import { useSelector } from "react-redux";
 import AvatarHeading from "./AvatarHeading";
@@ -10,7 +18,7 @@ function Profile() {
   console.log(user);
 
   return (
-    <Grid templateColumns={"repeat(4,1fr)"} gap={12}>
+    <Grid templateColumns={"repeat(4,1fr)"} gap={12} mt="10">
       <GridItem colSpan={{ base: "4", lg: "3" }}>
         <Text
           display={{ base: "none", lg: "block" }}
@@ -28,14 +36,18 @@ function Profile() {
         <VStack mt="10" spacing={5}></VStack>
       </GridItem>
 
-      <GridItem p="10" display={{ base: "none", lg: "block" }}>
-        <Avatar size="xl" src={user.avatar_url} cursor="pointer" />
-        <Text mt="5" fontWeight="bold">
-          {user.name}
-        </Text>
+      <GridItem display={{ base: "none", lg: "block" }}>
+        <Card w="100%" variant="outline">
+          <CardBody>
+            <Avatar size="xl" src={user.avatar_url} cursor="pointer" />
+            <Text mt="5" fontWeight="bold">
+              {user.name}
+            </Text>
 
-        <Text size={"sm"}>{user.email}</Text>
-        <EditProfile name={user.name} img={user.avatar_url} />
+            <Text size={"sm"}>{user.email}</Text>
+            <EditProfile name={user.name} img={user.avatar_url} />
+          </CardBody>
+        </Card>
       </GridItem>
     </Grid>
   );

@@ -22,13 +22,13 @@ import {
 } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { readingTime } from "../../constant/readingTime";
+import { readingTime } from "../../utils/readingTime";
 import PostSkeleton from "./PostSkeleton";
 
 function PostForm() {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
   const toast = useToast();
-  const [save,setSave]=useState(false)
+  const [save, setSave] = useState(false);
 
   // ROUTER
   const { id } = useParams();
@@ -105,12 +105,12 @@ function PostForm() {
             </Box>
           </Tooltip>
           <Tooltip hasArrow label="Save" placement="top">
-            <Box cursor="pointer" onClick={()=>setSave(!save)}>
-              {save ? 
+            <Box cursor="pointer" onClick={() => setSave(!save)}>
+              {save ? (
                 <BsFillBookmarkPlusFill size={20} color={lightColor} />
-               : 
+              ) : (
                 <BsBookmarkPlus size={20} color={lightColor} />
-              }
+              )}
             </Box>
           </Tooltip>
         </HStack>
