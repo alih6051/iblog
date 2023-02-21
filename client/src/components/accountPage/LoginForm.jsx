@@ -10,8 +10,11 @@ import {
   useColorModeValue,
   useToast,
   Box,
+  InputLeftElement,
+  Card,
+  CardBody,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { ViewIcon, ViewOffIcon, EmailIcon, UnlockIcon } from "@chakra-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/auth/authSlice";
 import { reset } from "../../redux/auth/authSlice";
@@ -72,59 +75,73 @@ function LoginForm() {
   const handleClick = () => setShow(!show);
 
   return (
-    <VStack maxW={"2xl"} spacing={5}>
-      <FormControl isRequired>
-        <FormLabel>Email</FormLabel>
-        <Input
-          placeholder="Enter your email"
-          type="email"
-          name="email"
-          rounded={"0"}
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </FormControl>
+    <Card py="3">
+      <CardBody>
+        <VStack maxW={"2xl"} spacing={5}>
+          <InputGroup position="relative">
+            <InputLeftElement
+              pointerEvents="none"
+              position="absolute"
+              top="1"
+              children={<EmailIcon color="gray.400" boxSize={5} />}
+            />
+            <Input
+              placeholder="Email*"
+              type="email"
+              name="email"
+              size="lg"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </InputGroup>
 
-      <FormControl isRequired>
-        <FormLabel>Password</FormLabel>
-        <InputGroup mt="5px" size="md">
-          <Input
-            type={show ? "text" : "password"}
-            placeholder="Enter password"
-            name="password"
-            rounded={"0"}
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <InputRightElement width="4.5rem">
-            <Button
-              h="1.75rem"
-              size="sm"
-              rounded={"0"}
-              variant="link"
-              onClick={handleClick}
-            >
-              {show ? <ViewOffIcon /> : <ViewIcon />}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-      </FormControl>
+          <InputGroup position="relative">
+            <InputLeftElement
+              pointerEvents="none"
+              position="absolute"
+              top="1"
+              children={<UnlockIcon color="gray.400" boxSize={5} />}
+            />
+            <Input
+              type={show ? "text" : "password"}
+              placeholder="Password*"
+              name="password"
+              size="lg"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            <InputRightElement width="4.5rem" position="absolute" top="1">
+              <Button
+                h="1.75rem"
+                size="lg"
+                variant="link"
+                onClick={handleClick}
+              >
+                {show ? (
+                  <ViewOffIcon color="gray.400" boxSize={5} />
+                ) : (
+                  <ViewIcon color="gray.400" boxSize={5} />
+                )}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
 
-      <Button
-        isDisabled={
-          formData.email == "" || formData.password == "" ? true : false
-        }
-        width="100%"
-        rounded={"0"}
-        onClick={handleSubmit}
-        colorScheme={colorScheme}
-        isLoading={isLoading}
-        loadingText={"Login"}
-        size="lg"
-      >
-        Login
-      </Button>
-    </VStack>
+          <Button
+            isDisabled={
+              formData.email == "" || formData.password == "" ? true : false
+            }
+            width="100%"
+            size="lg"
+            onClick={handleSubmit}
+            colorScheme={colorScheme}
+            isLoading={isLoading}
+            loadingText={"Login"}
+          >
+            Login
+          </Button>
+        </VStack>
+      </CardBody>
+    </Card>
   );
 }
 

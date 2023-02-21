@@ -8,8 +8,19 @@ import {
   InputRightElement,
   Button,
   useColorModeValue,
+  InputLeftElement,
+  useToast,
+  Card,
+  CardBody,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import {
+  EmailIcon,
+  LinkIcon,
+  UnlockIcon,
+  ViewIcon,
+  ViewOffIcon,
+} from "@chakra-ui/icons";
+import { CiUser } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/auth/authSlice";
 
@@ -24,6 +35,7 @@ function RegisterForm() {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState(initState);
   const colorScheme = useColorModeValue("blue", "green");
+  const toast = useToast();
 
   // REDUX
   const dispatch = useDispatch();
@@ -36,91 +48,128 @@ function RegisterForm() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = () => dispatch(register(formData));
+  const handleSubmit = () => {
+    const regEx = /[a-zA-Z0-9._%+-]+@[a-z0-9·-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
+
+    if (regEx.test(formData.email)) {
+      dispatch(register(formData));
+    } else {
+      toast({
+        title: "Invalid Email Address",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
 
   return (
-    <VStack maxW={"2xl"} spacing={5}>
-      <FormControl isRequired>
-        <FormLabel>Name</FormLabel>
-        <Input
-          type="text"
-          placeholder="Enter your Name"
-          rounded={"0"}
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-        />
-      </FormControl>
+    <Card py="3">
+      <CardBody>
+        <VStack maxW={"2xl"} spacing={5}>
+          <InputGroup position="relative">
+            <InputLeftElement
+              pointerEvents="none"
+              position="absolute"
+              top="1"
+              children={<CiUser color="gray" size="23" />}
+            />
+            <Input
+              placeholder="Name*"
+              type="name"
+              name="name"
+              size="lg"
+              value={formData.name}
+              onChange={handleChange}
+            />
+          </InputGroup>
 
-      <FormControl isRequired>
-        <FormLabel>Image</FormLabel>
-        <Input
-          type="url"
-          placeholder="Paste Image URL"
-          rounded={"0"}
-          name="avatar_url"
-          value={formData.avatar_url}
-          onChange={handleChange}
-        />
-      </FormControl>
+          <InputGroup position="relative">
+            <InputLeftElement
+              pointerEvents="none"
+              position="absolute"
+              top="1"
+              children={<LinkIcon color="gray.400" boxSize={4} />}
+            />
+            <Input
+              placeholder="Paste URL*"
+              type="url"
+              name="avatar_url"
+              size="lg"
+              value={formData.avatar_url}
+              onChange={handleChange}
+            />
+          </InputGroup>
 
-      <FormControl isRequired>
-        <FormLabel>Email</FormLabel>
-        <Input
-          type="email"
-          placeholder="Enter your email"
-          rounded={"0"}
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </FormControl>
+          <InputGroup position="relative">
+            <InputLeftElement
+              pointerEvents="none"
+              position="absolute"
+              top="1"
+              children={<EmailIcon color="gray.400" boxSize={5} />}
+            />
+            <Input
+              placeholder="Email*"
+              type="email"
+              name="email"
+              size="lg"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </InputGroup>
 
-      <FormControl isRequired>
-        <FormLabel>Password</FormLabel>
-        <InputGroup mt="5px" size="md">
-          <Input
-            type={show ? "text" : "password"}
-            placeholder="Enter password"
-            name="password"
-            rounded={"0"}
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <InputRightElement width="4.5rem">
-            <Button
-              h="1.75rem"
-              size="sm"
-              rounded={"0"}
-              variant="link"
-              onClick={handleClick}
-            >
-              {show ? <ViewOffIcon /> : <ViewIcon />}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-      </FormControl>
+          <InputGroup position="relative">
+            <InputLeftElement
+              pointerEvents="none"
+              position="absolute"
+              top="1"
+              children={<UnlockIcon color="gray.400" boxSize={5} />}
+            />
+            <Input
+              type={show ? "text" : "password"}
+              placeholder="Password*"
+              name="password"
+              size="lg"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            <InputRightElement width="4.5rem" position="absolute" top="1">
+              <Button
+                h="1.75rem"
+                size="sm"
+                variant="link"
+                onClick={handleClick}
+              >
+                {show ? (
+                  <ViewOffIcon color="gray.400" boxSize={5} />
+                ) : (
+                  <ViewIcon color="gray.400" boxSize={5} />
+                )}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
 
-      <Button
-        isDisabled={
-          formData.email == "" ||
-          formData.image == "" ||
-          formData.name == "" ||
-          formData.password == ""
-            ? true
-            : false
-        }
-        width="100%"
-        rounded={"0"}
-        onClick={handleSubmit}
-        colorScheme={colorScheme}
-        size="lg"
-        isLoading={isLoading}
-        loadingText="Register"
-      >
-        Register
-      </Button>
-    </VStack>
+          <Button
+            isDisabled={
+              formData.email == "" ||
+              formData.image == "" ||
+              formData.name == "" ||
+              formData.password == ""
+                ? true
+                : false
+            }
+            width="100%"
+            onClick={handleSubmit}
+            colorScheme={colorScheme}
+            size="lg"
+            isLoading={isLoading}
+            loadingText="Register"
+          >
+            Register
+          </Button>
+        </VStack>
+      </CardBody>
+    </Card>
   );
 }
 
