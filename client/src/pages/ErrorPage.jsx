@@ -4,7 +4,7 @@ import { Divider, Center,Text, Flex, Container,useColorModeValue } from "@chakra
 function ErrorPage() {
     const colorScheme=useColorModeValue("black","white")
   return (
-    <Container minW="6xl">
+    <Container>
       <Flex h="80vh" alignItems="center" justifyContent="center">
         <Center height="50px" gap="4">
           <Text fontWeight="bold" fontSize="2xl">

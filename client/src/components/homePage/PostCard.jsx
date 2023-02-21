@@ -15,9 +15,9 @@ import {
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { BsBookmarkPlus, BsDot } from "react-icons/bs";
+import { BsBookmarkPlus, BsDot, BsFillBookmarkPlusFill } from "react-icons/bs";
 import { SlOptions } from "react-icons/sl";
 import { readingTime } from "../../constant/readingTime";
 
@@ -33,6 +33,7 @@ const PostCard = ({
   category,
 }) => {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
+  const [save, setSave] = useState(false);
   return (
     <Card
       rounded="none"
@@ -95,8 +96,12 @@ const PostCard = ({
 
             <HStack spacing={5} color={lightColor} fontSize="lg">
               <Tooltip hasArrow label="Save" placement="top">
-                <Box cursor="pointer">
-                  <BsBookmarkPlus size={20} color={lightColor} />
+                <Box cursor="pointer" onClick={() => setSave(!save)}>
+                  {save ?
+                    <BsFillBookmarkPlusFill size={20} color={lightColor} />
+                  :
+                    <BsBookmarkPlus size={20} color={lightColor} />
+                  }
                 </Box>
               </Tooltip>
 

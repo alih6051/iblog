@@ -18,6 +18,7 @@ import {
   BsLinkedin,
   BsLink45Deg,
   BsBookmarkPlus,
+  BsFillBookmarkPlusFill,
 } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -27,6 +28,7 @@ import PostSkeleton from "./PostSkeleton";
 function PostForm() {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
   const toast = useToast();
+  const [save,setSave]=useState(false)
 
   // ROUTER
   const { id } = useParams();
@@ -103,8 +105,12 @@ function PostForm() {
             </Box>
           </Tooltip>
           <Tooltip hasArrow label="Save" placement="top">
-            <Box cursor="pointer">
-              <BsBookmarkPlus size={20} color={lightColor} />
+            <Box cursor="pointer" onClick={()=>setSave(!save)}>
+              {save ? 
+                <BsFillBookmarkPlusFill size={20} color={lightColor} />
+               : 
+                <BsBookmarkPlus size={20} color={lightColor} />
+              }
             </Box>
           </Tooltip>
         </HStack>
