@@ -57,6 +57,19 @@ export const authSlice = createSlice({
       state.isError = false;
       state.message = "";
     },
+    updateSaved: (state, action) => {
+      let saved_posts = state.user.saved_posts;
+      let post_id = action.payload;
+
+      if (!saved_posts.includes(post_id)) {
+        saved_posts.push(post_id);
+      } else {
+        saved_posts.splice(saved_posts.indexOf(post_id), 1);
+      }
+
+      state.user = { ...state.user, saved_posts: saved_posts };
+      sessionStorage.setItem("jwt_iblog_user", JSON.stringify(state.user));
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -95,6 +108,6 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { reset } = authSlice.actions;
+export const { reset, updateSaved } = authSlice.actions;
 
 export default authSlice.reducer;

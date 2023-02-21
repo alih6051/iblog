@@ -2,13 +2,53 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const { authenticateToken } = require("../middleware/authenticateToken");
 const { PostModel } = require("../models/Post.model");
+const { SavedModel } = require("../models/Saved.model");
 
 const PostRouter = express.Router();
 
 PostRouter.get("/", async (req, res) => {
   try {
-    const data = await PostModel.find().populate("author", ["name", "email"]);
+    const data = await PostModel.find().populate("author", [
+      "name",
+      "email",
+      "avatar_url",
+    ]);
+
     res.send(data);
+  } catch (err) {
+    console.log(err);
+    res.send({ message: "Something went wrong", error: err });
+  }
+});
+
+// SAVED POSTS
+PostRouter.get("/saved/:id", authenticateToken, async (req, res) => {
+  const userID = req.body.author;
+  const ID = req.params.id;
+  try {
+    let user = await SavedModel.findOne({ user: userID });
+    if (!user) {
+      const new_user = new SavedModel({
+        user: userID,
+        saved_posts: [ID],
+      });
+      await new_user.save();
+    } else {
+      let { saved_posts } = user;
+
+      if (!saved_posts.includes(ID)) {
+        saved_posts.push(ID);
+      } else {
+        saved_posts.splice(saved_posts.indexOf(ID), 1);
+      }
+
+      await SavedModel.findByIdAndUpdate(
+        { _id: user._id },
+        { saved_posts: saved_posts }
+      );
+    }
+
+    res.send({ message: "Saved" });
   } catch (err) {
     console.log(err);
     res.send({ message: "Something went wrong", error: err });
@@ -21,6 +61,7 @@ PostRouter.get("/:id", async (req, res) => {
     const data = await PostModel.findById({ _id: ID }).populate("author", [
       "name",
       "email",
+      "avatar_url",
     ]);
     res.send(data);
   } catch (err) {

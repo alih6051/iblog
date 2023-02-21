@@ -9,6 +9,7 @@ import {
   Heading,
   HStack,
   Image,
+  Spinner,
   Stack,
   Tag,
   Text,
@@ -20,6 +21,9 @@ import { Link as RouterLink } from "react-router-dom";
 import { BsBookmarkPlus, BsDot, BsFillBookmarkPlusFill } from "react-icons/bs";
 import { SlOptions } from "react-icons/sl";
 import { readingTime } from "../../utils/readingTime";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { updateSaved } from "../../redux/auth/authSlice";
 
 const PostCard = ({
   _id,
@@ -31,16 +35,45 @@ const PostCard = ({
   content,
   summary,
   category,
+  savedPosts,
 }) => {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
-  const [save, setSave] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+  const [save, setSave] = useState(savedPosts.includes(_id));
+  console.log(save);
+  const [loading, setLoading] = useState(false);
+
+  // REDUX
+  const dispatch = useDispatch();
+
+  const handleSave = async () => {
+    if (user) {
+      const token =
+        JSON.parse(sessionStorage.getItem("jwt_iblog_user"))?.token || null;
+      setLoading(true);
+      axios
+        .get(`${import.meta.env.VITE_API_URL}/posts/saved/${_id}`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((res) => {
+          setLoading(false);
+          setSave(!save);
+          dispatch(updateSaved(_id));
+        })
+        .catch((err) => {
+          setLoading(false);
+        });
+    }
+  };
+
   return (
     <Card
       rounded="none"
       shadow="none"
       direction={{ base: "column", sm: "column", md: "row" }}
       overflow="hidden"
-      cursor="pointer"
     >
       <Stack w="100%">
         <CardHeader paddingBottom="0">
@@ -95,14 +128,22 @@ const PostCard = ({
             </Flex>
 
             <HStack spacing={5} color={lightColor} fontSize="lg">
-              <Tooltip hasArrow label="Save" placement="top">
-                <Box cursor="pointer" onClick={() => setSave(!save)}>
-                  {save ? (
-                    <BsFillBookmarkPlusFill size={20} color={lightColor} />
-                  ) : (
-                    <BsBookmarkPlus size={20} color={lightColor} />
-                  )}
-                </Box>
+              <Tooltip
+                hasArrow
+                label={user ? "Save" : "Login to save"}
+                placement="top"
+              >
+                {loading ? (
+                  <Spinner size="sm" />
+                ) : (
+                  <Box cursor="pointer" onClick={handleSave} _disabled={true}>
+                    {save ? (
+                      <BsFillBookmarkPlusFill size={20} color={lightColor} />
+                    ) : (
+                      <BsBookmarkPlus size={20} color={lightColor} />
+                    )}
+                  </Box>
+                )}
               </Tooltip>
 
               <Tooltip hasArrow label="Options" placement="top">
