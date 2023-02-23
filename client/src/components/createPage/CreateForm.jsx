@@ -119,24 +119,6 @@ const CreateForm = () => {
         name="title"
       />
 
-      <Select
-        // variant="unstyled"
-        fontSize={{ base: "lg", md: "xl" }}
-        placeholder="Select category"
-        value={category}
-        onChange={(e) => {
-          setCategory(e.target.value);
-        }}
-      >
-        <option value="Software Development">Software Development</option>
-        <option value="JavaScript">JavaScript</option>
-        <option value="Coding">Coding</option>
-        <option value="React">React</option>
-        <option value="Productivity">Productivity</option>
-        <option value="Nodejs">Nodejs</option>
-        <option value="Technology">Technology</option>
-      </Select>
-
       <Input
         placeholder="㊉ Add a Summary"
         variant="unstyled"
@@ -160,6 +142,24 @@ const CreateForm = () => {
         }}
         name="cover"
       />
+
+      <Select
+        // variant="unstyled"
+        fontSize={{ base: "lg", md: "xl" }}
+        placeholder="Select category"
+        value={category}
+        onChange={(e) => {
+          setCategory(e.target.value);
+        }}
+      >
+        <option value="Software Development">Software Development</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="Coding">Coding</option>
+        <option value="React">React</option>
+        <option value="Productivity">Productivity</option>
+        <option value="Nodejs">Nodejs</option>
+        <option value="Technology">Technology</option>
+      </Select>
 
       <BlogEditor setContent={setContent} content={content} />
     </VStack>
