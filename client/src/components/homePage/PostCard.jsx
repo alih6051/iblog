@@ -13,13 +13,18 @@ import {
   Tag,
   Text,
   Tooltip,
+  useToast,
   useColorModeValue,
+  Spinner,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { BsBookmarkPlus, BsDot, BsFillBookmarkPlusFill } from "react-icons/bs";
 import { SlOptions } from "react-icons/sl";
 import { readingTime } from "../../utils/readingTime";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addToSaved, removeToSaved } from "../../redux/auth/authSlice";
 
 const PostCard = ({
   _id,
@@ -34,13 +39,38 @@ const PostCard = ({
 }) => {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
   const [save, setSave] = useState(false);
+  const toast = useToast();
+
+  // REDUX
+  const dispatch = useDispatch();
+  const { saved_posts, user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (saved_posts.includes(_id)) {
+      setSave(true);
+    } else {
+      setSave(false);
+    }
+  }, [saved_posts]);
+
+  const handleSave = () => {
+    if (user) {
+      dispatch(addToSaved({ id: _id, token: user.token }));
+    } else {
+      toast({
+        title: `Login is required`,
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <Card
       rounded="none"
       shadow="none"
       direction={{ base: "column", sm: "column", md: "row" }}
       overflow="hidden"
-      cursor="pointer"
     >
       <Stack w="100%">
         <CardHeader paddingBottom="0">
@@ -96,11 +126,21 @@ const PostCard = ({
 
             <HStack spacing={5} color={lightColor} fontSize="lg">
               <Tooltip hasArrow label="Save" placement="top">
-                <Box cursor="pointer" onClick={() => setSave(!save)}>
+                <Box cursor="pointer">
                   {save ? (
-                    <BsFillBookmarkPlusFill size={20} color={lightColor} />
+                    <BsFillBookmarkPlusFill
+                      onClick={() =>
+                        dispatch(removeToSaved({ id: _id, token: user.token }))
+                      }
+                      size={20}
+                      color={lightColor}
+                    />
                   ) : (
-                    <BsBookmarkPlus size={20} color={lightColor} />
+                    <BsBookmarkPlus
+                      onClick={handleSave}
+                      size={20}
+                      color={lightColor}
+                    />
                   )}
                 </Box>
               </Tooltip>

@@ -107,13 +107,14 @@ function SideMenu({ src, name, email }) {
                 onClick={() => {
                   setLoading(true);
                   setTimeout(() => {
-                    setLoading(true);
+                    setLoading(false);
                     toast({
                       title: `Logged Out`,
                       duration: 2000,
                       isClosable: true,
                     });
                     dispatch(logout());
+                    window.location.reload();
                   }, 1000);
                 }}
               >
