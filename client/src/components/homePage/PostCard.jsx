@@ -9,14 +9,12 @@ import {
   Heading,
   HStack,
   Image,
-  Spinner,
   Stack,
   Tag,
   Text,
   Tooltip,
   useToast,
   useColorModeValue,
-  Spinner,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
@@ -65,7 +63,6 @@ const PostCard = ({
         duration: 2000,
         isClosable: true,
       });
-
     }
   };
 

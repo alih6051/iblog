@@ -15,9 +15,9 @@ const initialState = {
 // PUBLISH POST
 export const publish = createAsyncThunk(
   "post/publish",
-  async (post, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      return await postAPI.publish(post);
+      return await postAPI.publish(data);
     } catch (error) {
       const message =
         (error.response &&
