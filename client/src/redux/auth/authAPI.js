@@ -58,6 +58,7 @@ const removeToSaved = async ({ id, token }) => {
   return response.data;
 };
 
+// REGISTER USER
 const register = async (userData) => {
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/users/register`,

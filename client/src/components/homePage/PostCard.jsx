@@ -9,6 +9,7 @@ import {
   Heading,
   HStack,
   Image,
+  Spinner,
   Stack,
   Tag,
   Text,
@@ -36,8 +37,10 @@ const PostCard = ({
   content,
   summary,
   category,
+  savedPosts,
 }) => {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
+
   const [save, setSave] = useState(false);
   const toast = useToast();
 
@@ -62,6 +65,7 @@ const PostCard = ({
         duration: 2000,
         isClosable: true,
       });
+
     }
   };
 
