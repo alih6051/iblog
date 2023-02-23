@@ -13,6 +13,7 @@ import {
   HStack,
   Spinner,
   useToast,
+  Tooltip,
 } from "@chakra-ui/react";
 import { CiUser } from "react-icons/ci";
 import { BsBookmarks } from "react-icons/bs";
@@ -68,37 +69,53 @@ function SideMenu({ src, name, email }) {
               <BsBookmarks size="1.5em" />
               <Text>Lists</Text>
             </Flex>
-            <Flex alignItems="center" mb="20px" gap="10px" cursor="pointer">
-              <RiFileList2Line size="1.5em" />
-              <Text>Stories</Text>
-            </Flex>
-            <Flex alignItems="center" mb="20px" gap="10px" cursor="pointer">
-              <IoMdStats size="1.5em" />
-              <Text>Stats</Text>
-            </Flex>
+            <Tooltip hasArrow label="Work in Progress" placement="right">
+              <Flex alignItems="center" mb="20px" gap="10px" cursor="pointer">
+                <RiFileList2Line size="1.5em" />
+                <Text>Stories</Text>
+              </Flex>
+            </Tooltip>
+            <Tooltip hasArrow label="Work in Progress" placement="right">
+              <Flex alignItems="center" mb="20px" gap="10px" cursor="pointer">
+                <IoMdStats size="1.5em" />
+                <Text>Stats</Text>
+              </Flex>
+            </Tooltip>
             <hr />
-            <Text mt="15px" mb="20px" cursor="pointer">
-              Settings
-            </Text>
-            <Text mb="20px" cursor="pointer">
-              Refine recommendations
-            </Text>
-            <Text mb="20px" cursor="pointer">
-              Manage Publications
-            </Text>
-            <hr />
-            <Flex alignItems="center" gap="70px">
+            <Tooltip hasArrow label="Work in Progress" placement="right">
               <Text mt="15px" mb="20px" cursor="pointer">
-                Become a member
+                Settings
               </Text>
-              <RiStarSFill size="1.3em" color="#FFD700" />
-            </Flex>
-            <Text mb="20px" cursor="pointer">
-              Apply to the Partner Program
-            </Text>
-            <Text mb="20px" cursor="pointer">
-              Gift a membership
-            </Text>
+            </Tooltip>
+            <Tooltip hasArrow label="Work in Progress" placement="right">
+              <Text mb="20px" cursor="pointer">
+                Refine recommendations
+              </Text>
+            </Tooltip>
+            <Tooltip hasArrow label="Work in Progress" placement="right">
+              <Text mb="20px" cursor="pointer">
+                Manage Publications
+              </Text>
+            </Tooltip>
+            <hr />
+            <Tooltip hasArrow label="Work in Progress" placement="right">
+              <Flex alignItems="center" gap="70px">
+                <Text mt="15px" mb="20px" cursor="pointer">
+                  Become a member
+                </Text>
+                <RiStarSFill size="1.3em" color="#FFD700" />
+              </Flex>
+            </Tooltip>
+            <Tooltip hasArrow label="Work in Progress" placement="right">
+              <Text mb="20px" cursor="pointer">
+                Apply to the Partner Program
+              </Text>
+            </Tooltip>
+            <Tooltip hasArrow label="Work in Progress" placement="right">
+              <Text mb="20px" cursor="pointer">
+                Gift a membership
+              </Text>
+            </Tooltip>
             <hr />
             <HStack mt={3} spacing={2}>
               <Text
