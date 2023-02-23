@@ -6,6 +6,10 @@ import {
   useColorModeValue,
   Box,
   Select,
+  Flex,
+  Heading,
+  Divider,
+  Image
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import BlogEditor from "../Editor/BlogEditor";
@@ -79,29 +83,50 @@ const CreateForm = () => {
   };
 
   return (
-    <VStack spacing={3}>
+    <VStack spacing={5}>
+      <Flex justifyContent="space-between" alignItems="center" w="100%">
+        <Heading fontSize={{ base: "2xl", md: "4xl" }}>
+          Publish a Article
+        </Heading>
+        <Button
+          colorScheme={colorScheme}
+          onClick={handleCreatePost}
+          isLoading={isPosting}
+          loadingText="Publishing"
+        >
+          Publish
+        </Button>
+      </Flex>
+
+      <Divider borderColor={"gray.400"} />
+
+      {cover.length > 0 && (
+        <>
+          <Image w="100%" src={cover} />
+        </>
+      )}
+
       <Input
         type="text"
-        borderColor={borderColor}
-        _placeholder={{ color: "gray" }}
-        rounded={"none"}
+        placeholder="Topic"
+        variant="unstyled"
+        fontSize={{ base: "xl", md: "2xl" }}
+        size="xl"
         value={title}
         onChange={(e) => {
           setTitle(e.target.value);
         }}
         name="title"
-        placeholder="Title"
-      ></Input>
+      />
 
       <Select
+        // variant="unstyled"
+        fontSize={{ base: "lg", md: "xl" }}
         placeholder="Select category"
-        _placeholder={{ color: "gray" }}
-        borderColor={borderColor}
         value={category}
         onChange={(e) => {
           setCategory(e.target.value);
         }}
-        rounded="none"
       >
         <option value="Software Development">Software Development</option>
         <option value="JavaScript">JavaScript</option>
@@ -113,43 +138,30 @@ const CreateForm = () => {
       </Select>
 
       <Input
-        type="text"
-        borderColor={borderColor}
-        _placeholder={{ color: "gray" }}
-        rounded={"none"}
+        placeholder="㊉ Add a Summary"
+        variant="unstyled"
+        fontSize={{ base: "xl", md: "2xl" }}
+        size="xl"
         value={summary}
         onChange={(e) => {
           setSummary(e.target.value);
         }}
         name="summary"
-        placeholder="Summary"
-      ></Input>
+      />
+
       <Input
-        type="text"
-        borderColor={borderColor}
-        _placeholder={{ color: "gray" }}
-        rounded={"none"}
+        placeholder="㊉ Add a Image"
+        variant="unstyled"
+        fontSize={{ base: "xl", md: "2xl" }}
+        size="xl"
         value={cover}
         onChange={(e) => {
           setCover(e.target.value);
         }}
         name="cover"
-        placeholder="Image Url"
-      ></Input>
+      />
 
       <BlogEditor setContent={setContent} content={content} />
-
-      <Button
-        colorScheme={colorScheme}
-        size="lg"
-        rounded={"none"}
-        onClick={handleCreatePost}
-        w={"100%"}
-        isLoading={isPosting}
-        loadingText="Publishing"
-      >
-        Publish
-      </Button>
     </VStack>
   );
 };

@@ -28,8 +28,8 @@ const AccountPage = () => {
     <Container maxW="lg" mt={5}>
       <Tabs isFitted variant="soft-rounded" colorScheme={colorScheme}>
         <TabList mb="2rem">
-          <Tab rounded={"0"}>LogIn</Tab>
-          <Tab rounded={"0"}>Sign Up</Tab>
+          <Tab>LogIn</Tab>
+          <Tab>Sign Up</Tab>
         </TabList>
 
         <TabPanels>

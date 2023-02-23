@@ -49,7 +49,7 @@ const BlogEditor = ({ content, setContent }) => {
         onChange={(newValue) => setContent(newValue)}
         modules={modules}
         formats={formats}
-        style={{ width: "100%" }}
+        style={{ width: "100%",minHeight:"150px" }}
       />
     </Box>
   );

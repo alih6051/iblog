@@ -23,6 +23,7 @@ import {
 import { CiUser } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/auth/authSlice";
+import { BiImageAdd } from "react-icons/bi";
 
 function RegisterForm() {
   const [show, setShow] = useState(false);
@@ -92,14 +93,22 @@ function RegisterForm() {
                 pointerEvents="none"
                 position="absolute"
                 top="1"
-                children={<LinkIcon color="gray.400" boxSize={4} />}
+                children={<BiImageAdd color="gray" size="25"/>}
               />
               <Input
                 placeholder="Paste URL*"
                 type="file"
                 name="avatar_url"
                 size="lg"
-                accept="image/*" 
+                accept="image/*"
+                sx={{
+                  "::file-selector-button": {
+                    height: 8,
+                    mr: 4,
+                    border: "1px solid grey",
+                    mt: 2,
+                  },
+                }}
                 onChange={(e) => setAvatar_url(e.target.files[0])}
               />
             </InputGroup>
@@ -149,22 +158,6 @@ function RegisterForm() {
                 </Button>
               </InputRightElement>
             </InputGroup>
-
-            <Button
-              isDisabled={
-                email == "" || avatar_url == "" || name == "" || password == ""
-                  ? true
-                  : false
-              }
-              width="100%"
-              onClick={handleSubmit}
-              colorScheme={colorScheme}
-              size="lg"
-              isLoading={isLoading}
-              loadingText="Register"
-            >
-              Register
-            </Button>
           </VStack>
         </form>
       </CardBody>
