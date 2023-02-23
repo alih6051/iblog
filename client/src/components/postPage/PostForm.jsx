@@ -37,13 +37,10 @@ function PostForm() {
   const [data, setData] = useState();
   const [loading, setLoading] = useState();
 
-  const API_URL = "https://dull-jade-indri-hose.cyclic.app";
-  // const API_URL = "http://localhost:4500";
-
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${API_URL}/posts/${id}`)
+      .get(`${import.meta.env.VITE_API_URL}/posts/${id}`)
       .then(({ data }) => {
         setLoading(false);
         setData(data);

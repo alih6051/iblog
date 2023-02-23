@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const API_URL = "https://dull-jade-indri-hose.cyclic.app";
-// const API_URL = "http://localhost:4500";
-
 // Login user
 const login = async (userData) => {
-  const response = await axios.post(`${API_URL}/users/login`, userData);
+  const response = await axios.post(
+    `${import.meta.env.VITE_API_URL}/users/login`,
+    userData
+  );
 
   if (response.status == 200) {
     sessionStorage.setItem("jwt_iblog_user", JSON.stringify(response.data));
@@ -14,8 +14,12 @@ const login = async (userData) => {
   return response.data;
 };
 
+// REGISTER USER
 const register = async (userData) => {
-  const response = await axios.post(`${API_URL}/users/register`, userData);
+  const response = await axios.post(
+    `${import.meta.env.VITE_API_URL}/users/register`,
+    userData
+  );
 
   return response.data;
 };
