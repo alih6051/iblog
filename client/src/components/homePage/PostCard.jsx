@@ -9,7 +9,6 @@ import {
   Heading,
   HStack,
   Image,
-  Spinner,
   Stack,
   Tag,
   Text,
