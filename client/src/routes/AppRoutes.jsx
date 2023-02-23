@@ -33,7 +33,7 @@ const AppRoutes = () => {
       />
       <Route path="/edit/:id" element={<EditPage />} />
       <Route path="/posts/:id" element={<PostPage />} />
-      <Route path="/list" element={<PostPage />} />
+      <Route path="*" element={<ErrorPage />}></Route>
     </Routes>
   );
 };
