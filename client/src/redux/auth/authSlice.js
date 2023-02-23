@@ -2,12 +2,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authAPI from "./authAPI";
 
 const user = JSON.parse(sessionStorage.getItem("jwt_iblog_user"));
+const saved_posts = JSON.parse(sessionStorage.getItem("saved_posts"));
 
 const initialState = {
   user: user || null,
+  saved_posts: saved_posts || [],
   isLoading: false,
   isSuccess: false,
   isError: false,
+  isSaving: false,
+  isSaved: false,
+  isErrorInSave: false,
   message: "",
 };
 
@@ -42,6 +47,42 @@ export const register = createAsyncThunk(
   }
 );
 
+// ADD TO SAVED
+export const addToSaved = createAsyncThunk(
+  "auth/add_to_saved",
+  async (data, thunkAPI) => {
+    try {
+      return await authAPI.addToSaved(data);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// REMOVE FROM SAVED
+export const removeToSaved = createAsyncThunk(
+  "auth/remove_from_saved",
+  async (data, thunkAPI) => {
+    try {
+      return await authAPI.removeToSaved(data);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 // Logout user
 export const logout = createAsyncThunk("auth/logout", async () => {
   return await authAPI.logout();
@@ -54,6 +95,9 @@ export const authSlice = createSlice({
     reset: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
+      state.isSaving = false;
+      state.isSaved = false;
+      state.isErrorInSave = false;
       state.isError = false;
       state.message = "";
     },
@@ -80,6 +124,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        state.saved_posts = action.payload.saved_posts;
         state.message = "Login Successful";
       })
       .addCase(login.rejected, (state, action) => {
@@ -103,6 +148,31 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+        state.saved_posts = [];
+      })
+      .addCase(addToSaved.pending, (state) => {
+        state.isSaving = true;
+      })
+      .addCase(addToSaved.fulfilled, (state, action) => {
+        state.isSaving = false;
+        state.saved_posts = action.payload;
+      })
+      .addCase(addToSaved.rejected, (state, action) => {
+        state.isSaving = false;
+        state.isErrorInSave = true;
+        state.message = action.payload;
+      })
+      .addCase(removeToSaved.pending, (state) => {
+        state.isSaving = true;
+      })
+      .addCase(removeToSaved.fulfilled, (state, action) => {
+        state.isSaving = false;
+        state.saved_posts = action.payload;
+      })
+      .addCase(removeToSaved.rejected, (state, action) => {
+        state.isSaving = false;
+        state.isErrorInSave = true;
+        state.message = action.payload;
       });
   },
 });

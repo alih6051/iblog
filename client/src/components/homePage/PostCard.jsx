@@ -14,16 +14,18 @@ import {
   Tag,
   Text,
   Tooltip,
+  useToast,
   useColorModeValue,
+  Spinner,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { BsBookmarkPlus, BsDot, BsFillBookmarkPlusFill } from "react-icons/bs";
 import { SlOptions } from "react-icons/sl";
 import { readingTime } from "../../utils/readingTime";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { updateSaved } from "../../redux/auth/authSlice";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addToSaved, removeToSaved } from "../../redux/auth/authSlice";
 
 const PostCard = ({
   _id,
@@ -38,33 +40,32 @@ const PostCard = ({
   savedPosts,
 }) => {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
-  const { user } = useSelector((state) => state.auth);
-  const [save, setSave] = useState(savedPosts.includes(_id));
-  console.log(save);
-  const [loading, setLoading] = useState(false);
+
+  const [save, setSave] = useState(false);
+  const toast = useToast();
 
   // REDUX
   const dispatch = useDispatch();
+  const { saved_posts, user } = useSelector((state) => state.auth);
 
-  const handleSave = async () => {
+  useEffect(() => {
+    if (saved_posts.includes(_id)) {
+      setSave(true);
+    } else {
+      setSave(false);
+    }
+  }, [saved_posts]);
+
+  const handleSave = () => {
     if (user) {
-      const token =
-        JSON.parse(sessionStorage.getItem("jwt_iblog_user"))?.token || null;
-      setLoading(true);
-      axios
-        .get(`${import.meta.env.VITE_API_URL}/posts/saved/${_id}`, {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((res) => {
-          setLoading(false);
-          setSave(!save);
-          dispatch(updateSaved(_id));
-        })
-        .catch((err) => {
-          setLoading(false);
-        });
+      dispatch(addToSaved({ id: _id, token: user.token }));
+    } else {
+      toast({
+        title: `Login is required`,
+        duration: 2000,
+        isClosable: true,
+      });
+
     }
   };
 
@@ -128,22 +129,24 @@ const PostCard = ({
             </Flex>
 
             <HStack spacing={5} color={lightColor} fontSize="lg">
-              <Tooltip
-                hasArrow
-                label={user ? "Save" : "Login to save"}
-                placement="top"
-              >
-                {loading ? (
-                  <Spinner size="sm" />
-                ) : (
-                  <Box cursor="pointer" onClick={handleSave} _disabled={true}>
-                    {save ? (
-                      <BsFillBookmarkPlusFill size={20} color={lightColor} />
-                    ) : (
-                      <BsBookmarkPlus size={20} color={lightColor} />
-                    )}
-                  </Box>
-                )}
+              <Tooltip hasArrow label="Save" placement="top">
+                <Box cursor="pointer">
+                  {save ? (
+                    <BsFillBookmarkPlusFill
+                      onClick={() =>
+                        dispatch(removeToSaved({ id: _id, token: user.token }))
+                      }
+                      size={20}
+                      color={lightColor}
+                    />
+                  ) : (
+                    <BsBookmarkPlus
+                      onClick={handleSave}
+                      size={20}
+                      color={lightColor}
+                    />
+                  )}
+                </Box>
               </Tooltip>
 
               <Tooltip hasArrow label="Options" placement="top">
