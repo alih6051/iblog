@@ -9,7 +9,6 @@ import {
   Heading,
   HStack,
   Image,
-  Spinner,
   Stack,
   Tag,
   Text,
@@ -64,7 +63,6 @@ const PostCard = ({
         duration: 2000,
         isClosable: true,
       });
-
     }
   };
 

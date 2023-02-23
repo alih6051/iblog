@@ -27,6 +27,7 @@ const CreateForm = () => {
   const { isPosting, isPosted, isErrorInPosting, message } = useSelector(
     (state) => state.post
   );
+  const { token } = useSelector((state) => state.auth?.user);
 
   useEffect(() => {
     if (isPosted) {
@@ -73,7 +74,7 @@ const CreateForm = () => {
       content: content,
       cover: cover,
     };
-    dispatch(publish(post));
+    dispatch(publish({ post, token }));
     // after sending Data
   };
 

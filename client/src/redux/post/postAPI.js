@@ -1,10 +1,7 @@
 import axios from "axios";
 
-const token =
-  JSON.parse(sessionStorage.getItem("jwt_iblog_user"))?.token || null;
-
 // PUBLISH POST
-const publish = async (post) => {
+const publish = async ({ post, token }) => {
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/posts/create`,
     post,

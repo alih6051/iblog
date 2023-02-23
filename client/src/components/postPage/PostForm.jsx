@@ -24,6 +24,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { readingTime } from "../../utils/readingTime";
 import PostSkeleton from "./PostSkeleton";
+import { useDispatch, useSelector } from "react-redux";
+import { addToSaved, removeToSaved } from "../../redux/auth/authSlice";
 
 function PostForm() {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
@@ -36,6 +38,30 @@ function PostForm() {
   // FETCH
   const [data, setData] = useState();
   const [loading, setLoading] = useState();
+
+  // REDUX
+  const dispatch = useDispatch();
+  const { saved_posts, user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (saved_posts.includes(id)) {
+      setSave(true);
+    } else {
+      setSave(false);
+    }
+  }, [saved_posts]);
+
+  const handleSave = () => {
+    if (user) {
+      dispatch(addToSaved({ id: id, token: user.token }));
+    } else {
+      toast({
+        title: `Login is required`,
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -102,11 +128,21 @@ function PostForm() {
             </Box>
           </Tooltip>
           <Tooltip hasArrow label="Save" placement="top">
-            <Box cursor="pointer" onClick={() => setSave(!save)}>
+            <Box cursor="pointer">
               {save ? (
-                <BsFillBookmarkPlusFill size={20} color={lightColor} />
+                <BsFillBookmarkPlusFill
+                  onClick={() =>
+                    dispatch(removeToSaved({ id: id, token: user.token }))
+                  }
+                  size={20}
+                  color={lightColor}
+                />
               ) : (
-                <BsBookmarkPlus size={20} color={lightColor} />
+                <BsBookmarkPlus
+                  onClick={handleSave}
+                  size={20}
+                  color={lightColor}
+                />
               )}
             </Box>
           </Tooltip>
