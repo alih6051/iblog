@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   VStack,
@@ -7,14 +7,44 @@ import {
   GridItem,
   Card,
   CardBody,
+  Box,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import AvatarHeading from "./AvatarHeading";
 import EditProfile from "./EditProfile";
+import ProfilePostList from "./ProfilePostList";
+import axios from "axios";
 
 function Profile() {
-  const user = useSelector((state) => state.auth.user);
-  console.log(user);
+  const [user, setUser] = useState();
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState([]);
+
+  // REDUX
+  const token = useSelector((state) => state.auth?.user?.token);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/users/profile`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((res) => {
+        setLoading(false);
+        setPosts(res.data.posts);
+        setUser(res.data.user);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  }, []);
+
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <Grid templateColumns={"repeat(4,1fr)"} gap={12} mt="10">
@@ -27,15 +57,13 @@ function Profile() {
           {user.name}
         </Text>
         <AvatarHeading name={user.name} img={user.avatar_url} />
-
         <Text fontSize="xl" fontWeight="bold" mb="5">
           Your Posts
         </Text>
         <hr />
-        <VStack mt="10" spacing={5}>
-        </VStack>
-
+        <ProfilePostList posts={posts} />
       </GridItem>
+
       <GridItem display={{ base: "none", lg: "block" }}>
         <Card w="100%" variant="outline">
           <CardBody>
