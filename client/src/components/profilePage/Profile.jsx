@@ -8,7 +8,6 @@ import {
   Card,
   CardBody,
 } from "@chakra-ui/react";
-import PostCard from "../homePage/PostCard";
 import { useSelector } from "react-redux";
 import AvatarHeading from "./AvatarHeading";
 import EditProfile from "./EditProfile";
@@ -33,9 +32,10 @@ function Profile() {
           Your Posts
         </Text>
         <hr />
-        <VStack mt="10" spacing={5}></VStack>
-      </GridItem>
+        <VStack mt="10" spacing={5}>
+        </VStack>
 
+      </GridItem>
       <GridItem display={{ base: "none", lg: "block" }}>
         <Card w="100%" variant="outline">
           <CardBody>

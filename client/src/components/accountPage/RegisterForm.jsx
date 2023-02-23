@@ -93,7 +93,7 @@ function RegisterForm() {
                 pointerEvents="none"
                 position="absolute"
                 top="1"
-                children={<BiImageAdd color="gray" size="25"/>}
+                children={<BiImageAdd color="gray" size="25" />}
               />
               <Input
                 placeholder="Paste URL*"
@@ -158,6 +158,21 @@ function RegisterForm() {
                 </Button>
               </InputRightElement>
             </InputGroup>
+            <Button
+              isDisabled={
+                email == "" || avatar_url == "" || name == "" || password == ""
+                  ? true
+                  : false
+              }
+              width="100%"
+              onClick={handleSubmit}
+              colorScheme={colorScheme}
+              size="lg"
+              isLoading={isLoading}
+              loadingText="Register"
+            >
+              Register
+            </Button>
           </VStack>
         </form>
       </CardBody>

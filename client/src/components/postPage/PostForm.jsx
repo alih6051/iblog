@@ -9,8 +9,8 @@ import {
   HStack,
   VStack,
   useToast,
+  Tooltip,
 } from "@chakra-ui/react";
-import { Tooltip } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
   BsFacebook,
