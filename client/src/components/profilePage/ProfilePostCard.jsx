@@ -17,7 +17,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SlOptions } from "react-icons/sl";
 import { readingTime } from "../../utils/readingTime";
 
@@ -33,6 +33,7 @@ const ProfilePostCard = ({
   category,
 }) => {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
+  const navigate = useNavigate();
 
   return (
     <Card
@@ -43,45 +44,37 @@ const ProfilePostCard = ({
     >
       <Stack w="100%">
         <CardHeader paddingBottom="0">
-          <Flex spacing="4">
-            <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-              <Avatar size="sm" name={author.name} src={author.avatar_url} />
-
-              <Flex alignItems="center">
-                <Heading size="sm">{author.name}</Heading>
-                <BsDot style={{ color: lightColor }} />
-                <Text fontSize="sm" color={lightColor}>
-                  {new Date(createdAt).toDateString()}
-                </Text>
-              </Flex>
-            </Flex>
-          </Flex>
+          <Text fontSize="sm" color={lightColor}>
+            {new Date(createdAt).toDateString()}
+          </Text>
         </CardHeader>
         <CardBody>
-          <RouterLink to={`posts/${_id}`}>
-            <Flex gap={3} justifyContent="space-between">
-              <Box>
-                <Heading
-                  noOfLines={{ base: 3, md: 2 }}
-                  size="md"
-                  fontWeight="700"
-                  _hover={{ textDecoration: "underline" }}
-                >
-                  {title}
-                </Heading>
-                <Box display={{ base: "none", md: "block" }}>
-                  <Text noOfLines={3}>{summary}</Text>
-                </Box>
+          <Flex gap={3} justifyContent="space-between">
+            <Box>
+              <Heading
+                noOfLines={{ base: 3, md: 2 }}
+                size="md"
+                fontWeight="700"
+                _hover={{ textDecoration: "underline" }}
+                onClick={() => {
+                  navigate(`/posts/${_id}`);
+                }}
+                cursor="pointer"
+              >
+                {title}
+              </Heading>
+              <Box display={{ base: "none", md: "block" }}>
+                <Text noOfLines={3}>{summary}</Text>
               </Box>
-              <Box>
-                <Image
-                  src={cover}
-                  marginY="auto"
-                  maxW={{ base: "112px", sm: "130px", md: "200px" }}
-                ></Image>
-              </Box>
-            </Flex>
-          </RouterLink>
+            </Box>
+            <Box>
+              <Image
+                src={cover}
+                marginY="auto"
+                maxW={{ base: "112px", sm: "130px", md: "200px" }}
+              ></Image>
+            </Box>
+          </Flex>
         </CardBody>
 
         <CardFooter>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   VStack,
@@ -13,10 +13,38 @@ import { useSelector } from "react-redux";
 import AvatarHeading from "./AvatarHeading";
 import EditProfile from "./EditProfile";
 import ProfilePostList from "./ProfilePostList";
+import axios from "axios";
 
 function Profile() {
-  const user = useSelector((state) => state.auth.user);
-  console.log(user);
+  const [user, setUser] = useState();
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState([]);
+
+  // REDUX
+  const token = useSelector((state) => state.auth?.user?.token);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/users/profile`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((res) => {
+        setLoading(false);
+        setPosts(res.data.posts);
+        setUser(res.data.user);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  }, []);
+
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <Grid templateColumns={"repeat(4,1fr)"} gap={12} mt="10">
@@ -33,7 +61,7 @@ function Profile() {
           Your Posts
         </Text>
         <hr />
-        <ProfilePostList />
+        <ProfilePostList posts={posts} />
       </GridItem>
 
       <GridItem display={{ base: "none", lg: "block" }}>

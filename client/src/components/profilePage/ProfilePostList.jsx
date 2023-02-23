@@ -1,17 +1,10 @@
 import { Box, Stack, Text, useColorMode, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { StackDivider } from "@chakra-ui/react";
+import ProfilePostCard from "./ProfilePostCard";
 
-const ProfilePostList = () => {
+const ProfilePostList = ({ posts }) => {
   const { colorMode } = useColorMode();
-  const [posts, setPosts] = useState([]);
-  const [profile, setProfile] = useState([]);
-
-  useEffect(() => {}, []);
-
-  //   if (isLoading) {
-  //     return <Text>Loading...</Text>;
-  //   }
 
   return (
     <Stack
@@ -19,10 +12,9 @@ const ProfilePostList = () => {
       spacing="5"
       mt="5"
     >
-      <Text>Hello</Text>
-      <Text>Hello</Text>
-      <Text>Hello</Text>
-      <Text>Hello</Text>
+      {posts.map((post) => (
+        <ProfilePostCard key={post._id} {...post} />
+      ))}
     </Stack>
   );
 };
