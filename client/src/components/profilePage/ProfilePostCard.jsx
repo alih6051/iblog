@@ -15,6 +15,21 @@ import {
   Tooltip,
   useToast,
   useColorModeValue,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverBody,
+  Button,
+  VStack,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -34,6 +49,16 @@ const ProfilePostCard = ({
 }) => {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef();
+
+  // Post Delete
+  const handleDelete = () => {
+    
+  };
+
+  //Post Edit
+  const handleEdit = () => {};
 
   return (
     <Card
@@ -86,13 +111,60 @@ const ProfilePostCard = ({
               </Text>
             </Flex>
 
-            <HStack spacing={5} color={lightColor} fontSize="lg">
-              <Tooltip hasArrow label="Options" placement="top">
-                <Box cursor="pointer">
-                  <SlOptions />
-                </Box>
-              </Tooltip>
-            </HStack>
+            <Popover>
+              <PopoverTrigger>
+                <Button bg="none" _hover={{ bg: "none" }}>
+                  <SlOptions size="20" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent width="120px">
+                <PopoverArrow />
+                <PopoverBody cursor="pointer" onClick={handleEdit}>
+                  Edit Story
+                </PopoverBody>
+                <PopoverBody>
+                  <hr />
+                </PopoverBody>
+                <PopoverBody>
+                  <Button
+                    variant="link"
+                    textDecoration="none"
+                    colorScheme="red"
+                    onClick={onOpen}
+                  >
+                    Delete
+                  </Button>
+
+                  <AlertDialog
+                    isOpen={isOpen}
+                    leastDestructiveRef={cancelRef}
+                    onClose={onClose}
+                    isCentered
+                  >
+                    <AlertDialogOverlay>
+                      <AlertDialogContent>
+                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                          Delete story
+                        </AlertDialogHeader>
+
+                        <AlertDialogBody>
+                          Are you sure? You can't undo this action afterwards.
+                        </AlertDialogBody>
+
+                        <AlertDialogFooter>
+                          <Button ref={cancelRef} onClick={onClose}>
+                            Cancel
+                          </Button>
+                          <Button colorScheme="red" onClick={handleDelete} ml={3}>
+                            Delete
+                          </Button>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialogOverlay>
+                  </AlertDialog>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
           </Flex>
         </CardFooter>
       </Stack>
