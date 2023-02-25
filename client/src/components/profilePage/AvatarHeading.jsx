@@ -1,8 +1,8 @@
-import { Avatar, Flex, HStack, Text } from "@chakra-ui/react";
+import { Avatar, Box, Flex, HStack, Text } from "@chakra-ui/react";
 import React from "react";
 import EditProfile from "./EditProfile";
 
-const AvatarHeading = ({ name, img }) => {
+const AvatarHeading = ({ name, img, edit }) => {
   return (
     <Flex
       display={{ base: "flex", lg: "none" }}
@@ -16,8 +16,9 @@ const AvatarHeading = ({ name, img }) => {
           {name}
         </Text>
       </HStack>
-
-      <EditProfile name={name} img={img}/>
+      <Box display={edit}>
+        <EditProfile name={name} img={img} />
+      </Box>
     </Flex>
   );
 };

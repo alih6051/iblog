@@ -14,6 +14,7 @@ const initialState = {
   isSaved: false,
   isErrorInSave: false,
   message: "",
+  isRemovedFromSaved: false,
 };
 
 // Login user
@@ -99,6 +100,7 @@ export const authSlice = createSlice({
       state.isSaved = false;
       state.isErrorInSave = false;
       state.isError = false;
+      state.isRemovedFromSaved = false;
       state.message = "";
     },
     updateSaved: (state, action) => {
@@ -167,6 +169,7 @@ export const authSlice = createSlice({
       })
       .addCase(removeToSaved.fulfilled, (state, action) => {
         state.isSaving = false;
+        state.isRemovedFromSaved = true;
         state.saved_posts = action.payload;
       })
       .addCase(removeToSaved.rejected, (state, action) => {

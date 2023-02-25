@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  VStack,
-  Avatar,
-  Grid,
-  GridItem,
-  Card,
-  CardBody,
-  Box,
-} from "@chakra-ui/react";
+import { Text, Avatar, Grid, GridItem, Card, CardBody } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import AvatarHeading from "./AvatarHeading";
 import EditProfile from "./EditProfile";
 import ProfilePostList from "./ProfilePostList";
 import axios from "axios";
+import ProfileSkeleton from "./ProfileSkeleton";
 
 function Profile() {
   const [user, setUser] = useState();
@@ -43,7 +35,7 @@ function Profile() {
   }, []);
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return <ProfileSkeleton />;
   }
 
   return (
