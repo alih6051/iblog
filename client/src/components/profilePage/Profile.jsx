@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  VStack,
-  Avatar,
-  Grid,
-  GridItem,
-  Card,
-  CardBody,
-  Box,
-} from "@chakra-ui/react";
+import { Text, Avatar, Grid, GridItem, Card, CardBody } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import AvatarHeading from "./AvatarHeading";
 import EditProfile from "./EditProfile";
 import ProfilePostList from "./ProfilePostList";
 import axios from "axios";
+import ProfileSkeleton from "./ProfileSkeleton";
 
 function Profile() {
   const [user, setUser] = useState();
@@ -42,8 +34,9 @@ function Profile() {
       });
   }, []);
 
+  //Loading
   if (loading) {
-    return <Text>Loading...</Text>;
+    return <ProfileSkeleton />;
   }
 
   return (
@@ -56,11 +49,15 @@ function Profile() {
         >
           {user.name}
         </Text>
+
+        {/* AvatrHeading Components */}
         <AvatarHeading name={user.name} img={user.avatar_url} />
         <Text fontSize="xl" fontWeight="bold" mb="5">
           Your Posts
         </Text>
         <hr />
+
+        {/* ProfilePostsList Components */}
         <ProfilePostList posts={posts} />
       </GridItem>
 
@@ -73,6 +70,8 @@ function Profile() {
             </Text>
 
             <Text size={"sm"}>{user.email}</Text>
+
+            {/* EditProfile Components */}
             <EditProfile name={user.name} img={user.avatar_url} />
           </CardBody>
         </Card>

@@ -65,10 +65,19 @@ function SideMenu({ src, name, email }) {
                 <Text>Profile</Text>
               </Flex>
             </RouterLink>
-            <Flex alignItems="center" mb="20px" gap="10px" cursor="pointer">
-              <BsBookmarks size="1.5em" />
-              <Text>Lists</Text>
-            </Flex>
+
+            <RouterLink to="/lists">
+              <Flex
+                onClick={onClose}
+                alignItems="center"
+                mb="20px"
+                gap="10px"
+                cursor="pointer"
+              >
+                <BsBookmarks size="1.5em" />
+                <Text>Lists</Text>
+              </Flex>
+            </RouterLink>
             <Tooltip hasArrow label="Work in Progress" placement="right">
               <Flex alignItems="center" mb="20px" gap="10px" cursor="pointer">
                 <RiFileList2Line size="1.5em" />

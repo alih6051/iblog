@@ -9,6 +9,7 @@ import PostPage from "../pages/PostPage";
 
 import PrivateRoute from "./PrivateRoute";
 import ErrorPage from "../pages/ErrorPage";
+import SavedPage from "../pages/SavedPage";
 
 const AppRoutes = () => {
   return (
@@ -28,6 +29,14 @@ const AppRoutes = () => {
         element={
           <PrivateRoute>
             <ProfilePage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/lists"
+        element={
+          <PrivateRoute>
+            <SavedPage />
           </PrivateRoute>
         }
       />

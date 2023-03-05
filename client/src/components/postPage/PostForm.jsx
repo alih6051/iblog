@@ -97,6 +97,7 @@ function PostForm() {
         <HStack spacing={5}>
           <Avatar src={data?.author.avatar_url} name={data?.author.name} />
           <Flex direction="column">
+            
             <Text fontSize={"lg"}>{data?.author.name}</Text>
             <Text color={lightColor}>
               {new Date(data?.createdAt).toDateString()} ·{" "}
