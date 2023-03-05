@@ -24,6 +24,7 @@ import { CiUser } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/auth/authSlice";
 import { BiImageAdd } from "react-icons/bi";
+import Compressor from "compressorjs";
 
 function RegisterForm() {
   const [show, setShow] = useState(false);
@@ -40,6 +41,25 @@ function RegisterForm() {
   const { isLoading } = useSelector((state) => state.auth);
 
   const handleClick = () => setShow(!show);
+
+  const handleCompressedUpload = (e) => {
+    const image = e.target.files[0];
+    new Compressor(image, {
+      quality: 0.6,
+      success: (res) => {
+        if (res.size > 2048000) {
+          toast({
+            title: "Image size should be less than 2 MB ",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          });
+          return;
+        }
+        setAvatar_url(res);
+      },
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,7 +129,8 @@ function RegisterForm() {
                     mt: 2,
                   },
                 }}
-                onChange={(e) => setAvatar_url(e.target.files[0])}
+                onChange={handleCompressedUpload}
+                // onChange={(e) => setAvatar_url(e.target.files[0])}
               />
             </InputGroup>
 

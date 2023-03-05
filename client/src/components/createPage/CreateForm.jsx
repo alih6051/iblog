@@ -9,12 +9,13 @@ import {
   Flex,
   Heading,
   Divider,
-  Image
+  Image,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import BlogEditor from "../Editor/BlogEditor";
 import { useDispatch, useSelector } from "react-redux";
 import { publish, reset } from "../../redux/post/postSlice";
+import { useNavigate } from "react-router-dom";
 
 const CreateForm = () => {
   const toast = useToast();
@@ -25,7 +26,7 @@ const CreateForm = () => {
   const [category, setCategory] = useState("");
   const colorScheme = useColorModeValue("blue", "green");
   const borderColor = useColorModeValue("gray.300", "gray.300");
-
+  const navigate = useNavigate();
 
   // REDUX
   const dispatch = useDispatch();
@@ -80,12 +81,12 @@ const CreateForm = () => {
       cover: cover,
     };
     dispatch(publish({ post, token }));
-    // after sending Data
+    // // after sending Data
   };
 
   return (
     <VStack spacing={5}>
-      <Flex justifyContent="space-between" alignItems="center" w="100%">
+      <Flex justifyContent="space-between" alignItems="center" w="100%" position="sticky">
         <Heading fontSize={{ base: "2xl", md: "4xl" }}>
           Publish a Article
         </Heading>
@@ -111,13 +112,14 @@ const CreateForm = () => {
         type="text"
         placeholder="Topic"
         variant="unstyled"
-        fontSize={{ base: "xl", md: "2xl" }}
+        fontSize={{ base: "xl", md: "3xl" }}
         size="xl"
         value={title}
         onChange={(e) => {
           setTitle(e.target.value);
         }}
         name="title"
+        fontWeight="bold"
       />
 
       <Input

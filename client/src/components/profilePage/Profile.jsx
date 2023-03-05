@@ -34,6 +34,7 @@ function Profile() {
       });
   }, []);
 
+  //Loading
   if (loading) {
     return <ProfileSkeleton />;
   }
@@ -48,11 +49,15 @@ function Profile() {
         >
           {user.name}
         </Text>
+
+        {/* AvatrHeading Components */}
         <AvatarHeading name={user.name} img={user.avatar_url} />
         <Text fontSize="xl" fontWeight="bold" mb="5">
           Your Posts
         </Text>
         <hr />
+
+        {/* ProfilePostsList Components */}
         <ProfilePostList posts={posts} />
       </GridItem>
 
@@ -65,6 +70,8 @@ function Profile() {
             </Text>
 
             <Text size={"sm"}>{user.email}</Text>
+
+            {/* EditProfile Components */}
             <EditProfile name={user.name} img={user.avatar_url} />
           </CardBody>
         </Card>

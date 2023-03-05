@@ -53,9 +53,7 @@ const ProfilePostCard = ({
   const cancelRef = React.useRef();
 
   // Post Delete
-  const handleDelete = () => {
-    
-  };
+  const handleDelete = () => {};
 
   //Post Edit
   const handleEdit = () => {};
@@ -155,7 +153,11 @@ const ProfilePostCard = ({
                           <Button ref={cancelRef} onClick={onClose}>
                             Cancel
                           </Button>
-                          <Button colorScheme="red" onClick={handleDelete} ml={3}>
+                          <Button
+                            colorScheme="red"
+                            onClick={handleDelete}
+                            ml={3}
+                          >
                             Delete
                           </Button>
                         </AlertDialogFooter>
