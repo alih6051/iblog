@@ -130,7 +130,6 @@ function RegisterForm() {
                   },
                 }}
                 onChange={handleCompressedUpload}
-                // onChange={(e) => setAvatar_url(e.target.files[0])}
               />
             </InputGroup>
 

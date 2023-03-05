@@ -15,7 +15,6 @@ import React, { useEffect, useState } from "react";
 import BlogEditor from "../Editor/BlogEditor";
 import { useDispatch, useSelector } from "react-redux";
 import { publish, reset } from "../../redux/post/postSlice";
-import { useNavigate } from "react-router-dom";
 
 const CreateForm = () => {
   const toast = useToast();
@@ -26,7 +25,6 @@ const CreateForm = () => {
   const [category, setCategory] = useState("");
   const colorScheme = useColorModeValue("blue", "green");
   const borderColor = useColorModeValue("gray.300", "gray.300");
-  const navigate = useNavigate();
 
   // REDUX
   const dispatch = useDispatch();
@@ -81,7 +79,7 @@ const CreateForm = () => {
       cover: cover,
     };
     dispatch(publish({ post, token }));
-    // // after sending Data
+    // after sending Data
   };
 
   return (
