@@ -15,7 +15,6 @@ import React, { useEffect, useState } from "react";
 import BlogEditor from "../Editor/BlogEditor";
 import { useDispatch, useSelector } from "react-redux";
 import { publish, reset } from "../../redux/post/postSlice";
-import { useNavigate } from "react-router-dom";
 
 const CreateForm = () => {
   const toast = useToast();
