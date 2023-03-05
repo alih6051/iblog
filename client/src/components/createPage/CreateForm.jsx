@@ -26,7 +26,6 @@ const CreateForm = () => {
   const [category, setCategory] = useState("");
   const colorScheme = useColorModeValue("blue", "green");
   const borderColor = useColorModeValue("gray.300", "gray.300");
-  const navigate = useNavigate();
 
   // REDUX
   const dispatch = useDispatch();
@@ -81,7 +80,7 @@ const CreateForm = () => {
       cover: cover,
     };
     dispatch(publish({ post, token }));
-    // // after sending Data
+    // after sending Data
   };
 
   return (
