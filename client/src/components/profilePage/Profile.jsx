@@ -58,7 +58,7 @@ function Profile() {
         <hr />
 
         {/* ProfilePostsList Components */}
-        <ProfilePostList posts={posts} />
+        <ProfilePostList posts={posts} setPosts={setPosts} />
       </GridItem>
 
       <GridItem display={{ base: "none", lg: "block" }}>
