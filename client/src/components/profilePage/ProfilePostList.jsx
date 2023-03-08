@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { StackDivider } from "@chakra-ui/react";
 import ProfilePostCard from "./ProfilePostCard";
 
-const ProfilePostList = ({ posts }) => {
+const ProfilePostList = ({ posts, setPosts }) => {
   const { colorMode } = useColorMode();
 
   return (
@@ -13,7 +13,7 @@ const ProfilePostList = ({ posts }) => {
       mt="5"
     >
       {posts.map((post) => (
-        <ProfilePostCard key={post._id} {...post} />
+        <ProfilePostCard key={post._id} {...post} setPosts={setPosts} />
       ))}
     </Stack>
   );

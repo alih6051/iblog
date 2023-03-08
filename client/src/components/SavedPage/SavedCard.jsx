@@ -41,7 +41,7 @@ function SavedCard({
   //REDUX
   const { isRemovedFromSaved, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isRemovedFromSaved) {
@@ -50,7 +50,6 @@ function SavedCard({
     } else {
       setLoading(false);
       dispatch(reset());
-      console.log("error in save");
     }
   }, [isRemovedFromSaved]);
 
@@ -60,7 +59,7 @@ function SavedCard({
   };
 
   // Navigate
-  const handleNavigate=()=>navigate(`/posts/${_id}`)
+  const handleNavigate = () => navigate(`/posts/${_id}`);
 
   return (
     <Card
@@ -86,28 +85,28 @@ function SavedCard({
           </Flex>
         </CardHeader>
         <CardBody>
-            <Flex gap={3} justifyContent="space-between" onClick={handleNavigate}>
-              <Box>
-                <Heading
-                  noOfLines={{ base: 3, md: 2 }}
-                  size="md"
-                  fontWeight="700"
-                  _hover={{ textDecoration: "underline" }}
-                >
-                  {title}
-                </Heading>
-                <Box display={{ base: "none", md: "block" }}>
-                  <Text noOfLines={3}>{summary}</Text>
-                </Box>
+          <Flex gap={3} justifyContent="space-between" onClick={handleNavigate}>
+            <Box>
+              <Heading
+                noOfLines={{ base: 3, md: 2 }}
+                size="md"
+                fontWeight="700"
+                _hover={{ textDecoration: "underline" }}
+              >
+                {title}
+              </Heading>
+              <Box display={{ base: "none", md: "block" }}>
+                <Text noOfLines={3}>{summary}</Text>
               </Box>
-              <Box>
-                <Image
-                  src={cover}
-                  marginY="auto"
-                  maxW={{ base: "112px", sm: "130px", md: "200px" }}
-                ></Image>
-              </Box>
-            </Flex>
+            </Box>
+            <Box>
+              <Image
+                src={cover}
+                marginY="auto"
+                maxW={{ base: "112px", sm: "130px", md: "200px" }}
+              ></Image>
+            </Box>
+          </Flex>
         </CardBody>
 
         <CardFooter>

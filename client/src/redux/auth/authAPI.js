@@ -31,7 +31,6 @@ const addToSaved = async ({ id, token }) => {
   );
 
   if (response.status == 200) {
-    console.log("from authAPI", response.data);
     sessionStorage.setItem("saved_posts", JSON.stringify(response.data));
   }
 
@@ -51,7 +50,6 @@ const removeToSaved = async ({ id, token }) => {
   );
 
   if (response.status == 200) {
-    console.log("from authAPI", response.data);
     sessionStorage.setItem("saved_posts", JSON.stringify(response.data));
   }
 

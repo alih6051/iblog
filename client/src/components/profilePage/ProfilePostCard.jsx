@@ -35,6 +35,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SlOptions } from "react-icons/sl";
 import { readingTime } from "../../utils/readingTime";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const ProfilePostCard = ({
   _id,
@@ -46,14 +48,53 @@ const ProfilePostCard = ({
   content,
   summary,
   category,
+  setPosts,
 }) => {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
+  const toast = useToast();
+
+  // REDUX
+  const { user } = useSelector((state) => state.auth);
+
+  // STATES
+  const [loading, setLoading] = useState(false);
 
   // Post Delete
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    setLoading(true);
+    axios
+      .delete(
+        `${import.meta.env.VITE_API_URL}/users/profile/delete-post/${_id}`,
+        {
+          headers: {
+            Authorization: user?.token,
+          },
+        }
+      )
+      .then((res) => {
+        setLoading(false);
+        setPosts(res.data);
+        onClose();
+        toast({
+          title: "Post Deleted",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast({
+          title: "Something went wrong",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      });
+  };
 
   //Post Edit
   const handleEdit = () => {};
@@ -157,6 +198,8 @@ const ProfilePostCard = ({
                             colorScheme="red"
                             onClick={handleDelete}
                             ml={3}
+                            isLoading={loading}
+                            loadingText="Deleting"
                           >
                             Delete
                           </Button>
