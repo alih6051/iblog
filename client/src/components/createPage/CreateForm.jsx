@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import BlogEditor from "../Editor/BlogEditor";
 import { useDispatch, useSelector } from "react-redux";
 import { publish, reset } from "../../redux/post/postSlice";
+import { useNavigate } from "react-router-dom";
 
 const CreateForm = () => {
   const toast = useToast();
@@ -33,6 +34,8 @@ const CreateForm = () => {
   );
   const { token } = useSelector((state) => state.auth?.user);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (isPosted) {
       toast({
@@ -42,6 +45,7 @@ const CreateForm = () => {
         isClosable: true,
       });
       dispatch(reset());
+      navigate(-1);
     }
 
     if (isErrorInPosting) {
@@ -79,12 +83,16 @@ const CreateForm = () => {
       cover: cover,
     };
     dispatch(publish({ post, token }));
-    // after sending Data
   };
 
   return (
     <VStack spacing={5}>
-      <Flex justifyContent="space-between" alignItems="center" w="100%" position="sticky">
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        w="100%"
+        position="sticky"
+      >
         <Heading fontSize={{ base: "2xl", md: "4xl" }}>
           Publish a Article
         </Heading>

@@ -97,7 +97,9 @@ const ProfilePostCard = ({
   };
 
   //Post Edit
-  const handleEdit = () => {};
+  const handleEdit = (id) => {
+    navigate(`/edit/${id}`);
+  };
 
   return (
     <Card
@@ -158,7 +160,7 @@ const ProfilePostCard = ({
               </PopoverTrigger>
               <PopoverContent width="120px">
                 <PopoverArrow />
-                <PopoverBody cursor="pointer" onClick={handleEdit}>
+                <PopoverBody cursor="pointer" onClick={() => handleEdit(_id)}>
                   Edit Story
                 </PopoverBody>
                 <PopoverBody>
