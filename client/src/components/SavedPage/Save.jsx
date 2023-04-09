@@ -25,7 +25,7 @@ function Save() {
       })
       .then((res) => {
         setLoading(false);
-        setSavedPost(res.data.saved_posts);
+        setSavedPost(res.data.saved_posts.reverse());
         setUser(res.data.user);
       })
       .catch((err) => {
