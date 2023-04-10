@@ -61,7 +61,7 @@ This is a clone of the Medium platform built using the MERN stack (MongoDB, Expr
 - Post creation: Authenticated users can create new blog posts with a title, description, and body.
 - Post listing: All blog posts are listed on the home page, and users can view individual posts by clicking on them.
 - Post editing and deletion: Authenticated users can edit and delete their own posts.
-- Comments: Users can leave comments on blog posts, and authenticated users can delete comments left by others.
+- Comments: Users can leave comments on blog posts, and authenticated users can delete comments left by them.
 - Like and dislike: Authenticated users can like or dislike blog posts, and the number of likes and dislikes is displayed on each post.
 
 <br/>
