@@ -2,53 +2,15 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const { authenticateToken } = require("../middleware/authenticateToken");
 const { PostModel } = require("../models/Post.model");
-const { SavedModel } = require("../models/Saved.model");
 
 const PostRouter = express.Router();
 
 PostRouter.get("/", async (req, res) => {
   try {
-    const data = await PostModel.find().populate("author", [
-      "name",
-      "email",
-      "avatar_url",
-    ]);
-
+    const data = await PostModel.find()
+      .populate("author", ["name", "email", "avatar_url"])
+      .sort({ createdAt: -1 });
     res.send(data);
-  } catch (err) {
-    console.log(err);
-    res.send({ message: "Something went wrong", error: err });
-  }
-});
-
-// SAVED POSTS
-PostRouter.get("/saved/:id", authenticateToken, async (req, res) => {
-  const userID = req.body.author;
-  const ID = req.params.id;
-  try {
-    let user = await SavedModel.findOne({ user: userID });
-    if (!user) {
-      const new_user = new SavedModel({
-        user: userID,
-        saved_posts: [ID],
-      });
-      await new_user.save();
-    } else {
-      let { saved_posts } = user;
-
-      if (!saved_posts.includes(ID)) {
-        saved_posts.push(ID);
-      } else {
-        saved_posts.splice(saved_posts.indexOf(ID), 1);
-      }
-
-      await SavedModel.findByIdAndUpdate(
-        { _id: user._id },
-        { saved_posts: saved_posts }
-      );
-    }
-
-    res.send({ message: "Saved" });
   } catch (err) {
     console.log(err);
     res.send({ message: "Something went wrong", error: err });
@@ -110,6 +72,35 @@ PostRouter.delete("/delete/:id", authenticateToken, async (req, res) => {
   } catch (err) {
     console.log(err);
     res.send({ message: "Something went wrong", error: err });
+  }
+});
+
+// LIKE POST
+PostRouter.put("/likes/:id", authenticateToken, async (req, res) => {
+  try {
+    const post = await PostModel.findById(req.params.id);
+
+    const isLiked = post.likes.filter(
+      (user) => user.toString() === req.body.author
+    );
+
+    if (isLiked.length == 0) {
+      post.likes.unshift(req.body.author);
+      await post.save();
+      res.send({ msg: "Liked successfully", likes: post.likes });
+    } else {
+      let removeIndex = post.likes
+        .map((user) => user.toString())
+        .indexOf(req.body.author);
+
+      post.likes.splice(removeIndex, 1);
+
+      await post.save();
+      res.send({ msg: "Unliked successfully", likes: post.likes });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).send("Internal Server error");
   }
 });
 

@@ -8,6 +8,7 @@ const UserSchema = Schema(
     avatar_url: String,
     email: { type: String, required: true, min: 4, unique: true },
     password: { type: String, required: true },
+    saved_posts: [{ type: Schema.Types.ObjectId, ref: "post", default: [] }],
   },
   { versionKey: false }
 );
