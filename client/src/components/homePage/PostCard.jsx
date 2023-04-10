@@ -15,15 +15,19 @@ import {
   Tooltip,
   useToast,
   useColorModeValue,
+  Button,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { BsBookmarkPlus, BsDot, BsFillBookmarkPlusFill } from "react-icons/bs";
+import { BiLike, BiChat } from "react-icons/bi";
 import { SlOptions } from "react-icons/sl";
 import { readingTime } from "../../utils/readingTime";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addToSaved, removeToSaved } from "../../redux/auth/authSlice";
+import axios from "axios";
+import { updatePostLikes } from "../../redux/post/postSlice";
 
 const PostCard = ({
   _id,
@@ -36,11 +40,15 @@ const PostCard = ({
   summary,
   category,
   savedPosts,
+  likes,
 }) => {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
 
   const [save, setSave] = useState(false);
+  const [isLiking, setIsLiking] = useState(false);
   const toast = useToast();
+
+  const navigate = useNavigate();
 
   // REDUX
   const dispatch = useDispatch();
@@ -64,6 +72,30 @@ const PostCard = ({
         isClosable: true,
       });
     }
+  };
+
+  const updateLike = (postId) => {
+    if (!user) return navigate("/account");
+
+    setIsLiking(true);
+    axios
+      .put(
+        `${import.meta.env.VITE_API_URL}/posts/likes/${postId}`,
+        {},
+        {
+          headers: {
+            Authorization: user.token,
+          },
+        }
+      )
+      .then((res) => {
+        setIsLiking(false);
+        dispatch(updatePostLikes({ id: postId, likes: res.data.likes }));
+      })
+      .catch((err) => {
+        setIsLiking(false);
+        console.log(err);
+      });
   };
 
   return (
@@ -120,37 +152,54 @@ const PostCard = ({
           <Flex justifyContent="space-between" alignContent="center" w="100%">
             <Flex alignItems="center" gap={3}>
               <Tag fontSize="xs">{category}</Tag>
-              <Text fontSize="xs" color={lightColor}>
+              <Text
+                fontSize="xs"
+                display={{ base: "none", sm: "flex" }}
+                color={lightColor}
+              >
                 {readingTime(content)} mins read
               </Text>
             </Flex>
 
-            <HStack spacing={5} color={lightColor} fontSize="lg">
-              <Tooltip hasArrow label="Save" placement="top">
-                <Box cursor="pointer">
-                  {save ? (
-                    <BsFillBookmarkPlusFill
-                      onClick={() =>
-                        dispatch(removeToSaved({ id: _id, token: user.token }))
-                      }
-                      size={20}
-                      color={lightColor}
-                    />
-                  ) : (
-                    <BsBookmarkPlus
-                      onClick={handleSave}
-                      size={20}
-                      color={lightColor}
-                    />
-                  )}
-                </Box>
-              </Tooltip>
+            <HStack spacing={0} fontSize="lg">
+              <Button
+                variant="ghost"
+                isLoading={isLiking}
+                colorScheme={likes.includes(user?._id) ? "blue" : ""}
+                loadingText="Like"
+                onClick={() => updateLike(_id)}
+              >
+                <HStack>
+                  <BiLike size={20} />
+                  <Text>{likes.length}</Text>
+                  <Text display={{ base: "none", md: "flex" }}>Like</Text>
+                </HStack>
+              </Button>
 
-              <Tooltip hasArrow label="Options" placement="top">
-                <Box cursor="pointer">
-                  <SlOptions />
-                </Box>
-              </Tooltip>
+              <Button variant="ghost">
+                <HStack>
+                  <BiChat size={20} />
+                  <Text display={{ base: "none", md: "flex" }}>Comment</Text>
+                </HStack>
+              </Button>
+
+              <Button variant="ghost">
+                {save ? (
+                  <HStack
+                    onClick={() =>
+                      dispatch(removeToSaved({ id: _id, token: user.token }))
+                    }
+                  >
+                    <BsFillBookmarkPlusFill size={20} />
+                    <Text display={{ base: "none", md: "flex" }}>Saved</Text>
+                  </HStack>
+                ) : (
+                  <HStack onClick={handleSave}>
+                    <BsBookmarkPlus size={20} />
+                    <Text display={{ base: "none", md: "flex" }}>Save</Text>
+                  </HStack>
+                )}
+              </Button>
             </HStack>
           </Flex>
         </CardFooter>

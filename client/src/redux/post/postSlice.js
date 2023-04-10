@@ -47,6 +47,11 @@ export const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
+    updatePostLikes: (state, { type, payload }) => {
+      state.posts = state.posts.map((post) =>
+        post._id === payload.id ? { ...post, likes: payload.likes } : post
+      );
+    },
     reset: (state) => {
       state.isPosting = false;
       state.isPosted = false;
@@ -89,6 +94,6 @@ export const postSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { reset } = postSlice.actions;
+export const { reset, updatePostLikes } = postSlice.actions;
 
 export default postSlice.reducer;
