@@ -101,6 +101,7 @@ If you find any bugs or would like to contribute to this project, please feel fr
   </tr>
   <tr>
     <td><img src="https://res.cloudinary.com/dkudiktme/image/upload/v1681068005/iblog/list_1_eudjc7.png" alt="cart" /></td>
+    <td><img src="https://res.cloudinary.com/dkudiktme/image/upload/v1681499865/iblog/comment_gn8dij.png" alt="cart" /></td>
   </tr>
 </table>
 
