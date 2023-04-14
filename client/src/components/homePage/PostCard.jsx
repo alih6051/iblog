@@ -20,7 +20,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { BsBookmarkPlus, BsDot, BsFillBookmarkPlusFill } from "react-icons/bs";
-import { BiLike, BiChat } from "react-icons/bi";
+import { BiLike } from "react-icons/bi";
 import { SlOptions } from "react-icons/sl";
 import { readingTime } from "../../utils/readingTime";
 import { useSelector } from "react-redux";
@@ -173,13 +173,6 @@ const PostCard = ({
                   <BiLike size={20} />
                   <Text>{likes.length}</Text>
                   <Text display={{ base: "none", md: "flex" }}>Like</Text>
-                </HStack>
-              </Button>
-
-              <Button variant="ghost">
-                <HStack>
-                  <BiChat size={20} />
-                  <Text display={{ base: "none", md: "flex" }}>Comment</Text>
                 </HStack>
               </Button>
 

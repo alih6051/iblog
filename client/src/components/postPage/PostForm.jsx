@@ -10,6 +10,8 @@ import {
   VStack,
   useToast,
   Tooltip,
+  Button,
+  StackDivider,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
@@ -26,9 +28,12 @@ import { readingTime } from "../../utils/readingTime";
 import PostSkeleton from "./PostSkeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { addToSaved, removeToSaved } from "../../redux/auth/authSlice";
+import LikeBtn from "./LikeBtn";
+import CommentBtn from "./CommentBtn";
 
 function PostForm() {
   const lightColor = useColorModeValue("#757575", "#9aa0a6");
+  const bgColor = useColorModeValue("white", "#1A202C");
   const toast = useToast();
   const [save, setSave] = useState(false);
 
@@ -63,6 +68,19 @@ function PostForm() {
     }
   };
 
+  const handleCommentUpdate = (comments) => {
+    setData({ ...data, comments: comments });
+  };
+
+  const handleReplyUpdate = (replies, commentId) => {
+    setData({
+      ...data,
+      comments: data.comments.map((item) =>
+        item._id === commentId ? { ...item, replies: replies } : item
+      ),
+    });
+  };
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -88,7 +106,7 @@ function PostForm() {
   }
 
   return (
-    <VStack align="left" spacing={3}>
+    <VStack align="left" spacing={3} position="relative">
       <Flex
         justifyContent="space-between"
         direction={{ base: "column", sm: "row" }}
@@ -97,7 +115,6 @@ function PostForm() {
         <HStack spacing={5}>
           <Avatar src={data?.author.avatar_url} name={data?.author.name} />
           <Flex direction="column">
-            
             <Text fontSize={"lg"}>{data?.author.name}</Text>
             <Text color={lightColor}>
               {new Date(data?.createdAt).toDateString()} ·{" "}
@@ -163,6 +180,33 @@ function PostForm() {
       </Box>
 
       <Box dangerouslySetInnerHTML={{ __html: data?.content }} />
+      <Box
+        boxShadow="rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px"
+        px={4}
+        py={2}
+        position="fixed"
+        bottom="3"
+        left="50%"
+        transform="translateX(-50%)"
+        rounded="full"
+        color={lightColor}
+        bg={bgColor}
+      >
+        <HStack divider={<StackDivider />} spacing={3}>
+          <LikeBtn
+            posId={data?._id}
+            likes={data?.likes}
+            setData={setData}
+            data={data}
+          />
+          <CommentBtn
+            data={data}
+            postId={data?._id}
+            handleReplyUpdate={handleReplyUpdate}
+            handleCommentUpdate={handleCommentUpdate}
+          />
+        </HStack>
+      </Box>
     </VStack>
   );
 }
