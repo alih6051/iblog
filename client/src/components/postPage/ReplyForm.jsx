@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ReplyForm = ({ commentId, handleReplyUpdate }) => {
   const [text, setText] = useState("");
@@ -16,7 +17,11 @@ const ReplyForm = ({ commentId, handleReplyUpdate }) => {
 
   const token = useSelector((state) => state.auth?.user?.token);
 
+  const navigate = useNavigate();
+
   const handleReply = () => {
+    if (!token) navigate("/account");
+
     setLoading(true);
     axios
       .post(
