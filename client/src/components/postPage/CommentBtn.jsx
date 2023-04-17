@@ -48,7 +48,7 @@ const CommentBtn = ({
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent minW={{ base: "100%", sm: "400px" }}>
+        <DrawerContent minW={{ base: "85%", sm: "400px" }}>
           <DrawerCloseButton />
           <DrawerHeader>Responses ({data?.comments.length})</DrawerHeader>
 
